@@ -85,9 +85,8 @@ def test_repr():
 def test_eq(first, second, want):
     assert (first == second) is want
 
-@pytest.fixture
-def union_cases():
-    return [
+
+union_cases = [
         (UintSet(), UintSet(), UintSet()),
         (UintSet([1]), UintSet(), UintSet([1])),
         (UintSet(), UintSet([1]), UintSet([1])),
@@ -96,26 +95,30 @@ def union_cases():
     ]
 
 
-def test_or_op(union_cases):
-    for s1, s2, want in union_cases:
-        got = s1 | s2
-        assert got == want
+@pytest.mark.parametrize("first, second, want", union_cases)
+def test_or_op(first, second, want):
+     got = first | second
+     assert got == want
 
 
-'''
-def test_union(union_cases):
-    for s1, s2, want in union_cases:
-        got = s1.union(s2)
-        assert len(got) == len(want)
-        assert got == want
+@pytest.mark.parametrize("first, second, want", union_cases)
+def test_union(first, second, want):
+    got = first.union(second)
+    assert got == want
 
 
-def test_union_iterable(union_cases):
-    for s1, s2, want in union_cases:
-        it = list(s2)
-        got = s1.union(it)
-        assert len(got) == len(want)
-        assert got == want
+@pytest.mark.parametrize("first, second, want", union_cases)
+def test_union_iterable(first, second, want):
+    it = list(second)
+    got = first.union(it)
+    assert got == want
+
+
+def test_union_not_iterable():
+    first = UintSet()
+    with pytest.raises(TypeError) as e:
+        first.union(1)
+    assert e.value.args[0] == "expected UintSet or iterable argument"  
 
 
 def test_union_iterable_multiple():
@@ -127,9 +130,7 @@ def test_union_iterable_multiple():
     assert got == want
 
 
-@pytest.fixture
-def intersection_cases():
-    return [
+intersection_cases = [
         (UintSet(), UintSet(), UintSet()),
         (UintSet([1]), UintSet(), UintSet()),
         (UintSet([1]), UintSet([1]), UintSet([1])),
@@ -139,18 +140,27 @@ def intersection_cases():
     ]
 
 
-def test_and_op(intersection_cases):
-    for s1, s2, want in intersection_cases:
-        got = s1 & s2
-        assert len(got) == len(want)
-        assert got == want
+@pytest.mark.parametrize("first, second, want", intersection_cases)
+def test_and_op(first, second, want):
+    got = first & second
+    assert got == want
 
 
-def test_intersection(intersection_cases):
-    for s1, s2, want in intersection_cases:
-        got = s1.intersection(s2)
-        assert len(got) == len(want)
-        assert got == want
+@pytest.mark.parametrize("first, second, want", intersection_cases)
+def test_intersection(first, second, want):
+    got = first.intersection(second)
+    assert got == want
+
+'''
+
+
+
+
+
+
+
+
+
 
 
 @pytest.fixture

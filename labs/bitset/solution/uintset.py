@@ -43,8 +43,48 @@ class UintSet:
         return isinstance(other, self.__class__) and self._bigint == other._bigint
 
     def __or__(self, other):
-        if isinstance(other, self.__class__):
-            res = UintSet()
+        cls = self.__class__
+        if isinstance(other, cls):
+            res = cls()
             res._bigint = self._bigint | other._bigint
             return res
         return NotImplemented
+
+    def union(self, *others):
+        cls = self.__class__
+        res = cls()
+        res._bigint = self._bigint
+        for other in others:    
+            if isinstance(other, cls):
+                res._bigint |= other._bigint
+            try:
+                second = cls(other)
+            except TypeError:
+                raise TypeError("expected UintSet or iterable argument")
+            else:
+                res._bigint |= second._bigint
+        return res
+
+    def __and__(self, other):
+        cls = self.__class__
+        if isinstance(other, cls):
+            res = cls()
+            res._bigint = self._bigint & other._bigint
+            return res
+        return NotImplemented
+
+    def intersection(self, *others):
+        cls = self.__class__
+        res = cls()
+        res._bigint = self._bigint
+        for other in others:    
+            if isinstance(other, cls):
+                res._bigint &= other._bigint
+            try:
+                second = cls(other)
+            except TypeError:
+                raise TypeError("expected UintSet or iterable argument")
+            else:
+                res._bigint &= second._bigint
+        return res
+
