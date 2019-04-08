@@ -1,2 +1,1 @@
-# oopy
-Objetos Pythônicos
+# Pythonic Objects
