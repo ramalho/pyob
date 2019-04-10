@@ -1,7 +1,8 @@
 import bitops
 
 
-INVALID_ELEMENT_MESSAGE = "'UintSet' elements must be integers >= 0"
+INVALID_ELEMENT_MSG = "'UintSet' elements must be integers >= 0"
+INVALID_ITER_ARG_MSG = "expected UintSet or iterable argument"
 
 class UintSet:
 
@@ -18,20 +19,20 @@ class UintSet:
         try:
             self._bigint = bitops.set_bit(self._bigint, elem)
         except TypeError:
-            raise TypeError(INVALID_ELEMENT_MESSAGE)
+            raise TypeError(INVALID_ELEMENT_MSG)
         except ValueError:
-            raise ValueError(INVALID_ELEMENT_MESSAGE)
+            raise ValueError(INVALID_ELEMENT_MSG)
 
     def __contains__(self, elem):
         try:
             return bitops.get_bit(self._bigint, elem)
         except TypeError:
-            raise TypeError(INVALID_ELEMENT_MESSAGE)
+            raise TypeError(INVALID_ELEMENT_MSG)
         except ValueError:
-            raise ValueError(INVALID_ELEMENT_MESSAGE)
+            raise ValueError(INVALID_ELEMENT_MSG)
 
     def __iter__(self):
-        return bitops.get_ones(self._bigint)
+        return bitops.find_ones(self._bigint)
 
     def __repr__(self):
         elements = ', '.join(str(e) for e in self)
@@ -60,7 +61,7 @@ class UintSet:
             try:
                 second = cls(other)
             except TypeError:
-                raise TypeError("expected UintSet or iterable argument")
+                raise TypeError(INVALID_ITER_ARG_MSG)
             else:
                 res._bigint |= second._bigint
         return res
@@ -83,7 +84,7 @@ class UintSet:
             try:
                 second = cls(other)
             except TypeError:
-                raise TypeError("expected UintSet or iterable argument")
+                raise TypeError(INVALID_ITER_ARG_MSG)
             else:
                 res._bigint &= second._bigint
         return res

@@ -1,6 +1,6 @@
 import pytest
 
-from bitops import count_ones, get_bit, set_bit, set_all_bits, unset_bit
+from bitops import count_ones, get_bit, set_bit, unset_bit, find_ones
 
 
 @pytest.mark.parametrize('bigint, want', [
@@ -60,19 +60,6 @@ def test_set_bit(bigint, index, want):
     assert got == want
 
 
-@pytest.mark.parametrize('bigint, want', [
-    (0, 1),
-    (1, 1),
-    (0b10, 0b11),
-    (0b11, 0b11),
-    (0b1_0101_0101, 0b1_1111_1111),
-    (2**64, 2**64 + (2**64 - 1)),
-])
-def test_set_all_bits(bigint, want):
-    got = set_all_bits(bigint)
-    assert got == want
-
-
 @pytest.mark.parametrize('bigint, index, want', [
     (0, 0, 0),
     (1, 0, 0),
@@ -90,4 +77,18 @@ def test_set_all_bits(bigint, want):
 ])
 def test_unset_bit(bigint, index, want):
     got = unset_bit(bigint, index)
+    assert got == want
+
+
+@pytest.mark.parametrize('bigint, want', [
+    (0, []),
+    (1, [0]),
+    (0b10, [1]),
+    (0b11, [0, 1]),
+    (0b1_0101_0101, [0, 2, 4, 6, 8]),
+    (2**64, [64]),
+    (2**64 - 1, list(range(0, 64))),
+])
+def test_find_ones(bigint, want):
+    got = list(find_ones(bigint))
     assert got == want
