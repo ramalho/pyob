@@ -11,7 +11,7 @@ class Coordinate:
         return f'{abs(self.lat):.1f}°{ns}, {abs(self.long):.1f}°{we}'
 
 
-sp = Coordinate(-23, 46)
+sp = Coordinate(-23, 'hjgjgjh')
 
 print(sp)
 
