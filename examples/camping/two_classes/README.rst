@@ -67,7 +67,7 @@ Exercise
 
 .. tip:: To practice TDD with doctests, this is a good option to run the tests::
 
-    $ python3 -m doctest README.rst -o REPORT_ONLY_FIRST_FAILURE
+    $ python3 -m doctest README.rst -f
 
 
 1. Allow adding contributors later
