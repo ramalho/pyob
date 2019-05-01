@@ -33,7 +33,7 @@ The interface of ``FinancialHistory`` consists of:
 Demonstration
 -------------
 
-Create ``FinancialHistory`` with $ 100.
+Create ``FinancialHistory`` with $ 100::
 
     >>> from finstory import FinancialHistory
     >>> h = FinancialHistory(100)
