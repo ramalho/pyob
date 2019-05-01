@@ -1,4 +1,3 @@
-"""
 Class ``Bingo`` picks an item at random from a collection of items,
 removing the item from the collection, like to a bingo cage.
 
