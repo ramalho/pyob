@@ -1,0 +1,302 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>Chapter 6, Slide 1</title></head>
+<body>
+<h1 align="center">Introduction to Object Oriented Programming, 3rd Ed</h1>
+<h2 align="center"><a href="http://www.cs.orst.edu/~budd/">Timothy A. Budd</a></h2>
+<h1 align="center">Chapter 6</h1>
+<h1 align="center">A Case Study : Eight Queens </h1>
+<p>
+<b>Outline</b>
+</p><ol>
+<li><a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/slide01.htm"> Statement of the Problem</a>
+</li><li><a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/slide02.htm"> OOP Approach</a>
+</li><li><a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/slide03.htm"> Observations</a>
+</li><li><a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/slide04.htm"> Pointers</a>
+</li><li><a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/slide05.htm"> CRC Card for Queen</a>
+</li><li><a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/slide06.htm"> CRC Card for Queen - Backside</a>
+</li><li><a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/slide07.htm"> Initialization</a>
+</li><li><a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/slide08.htm"> Finding First Solution</a>
+</li><li><a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/slide09.htm"> Advancing to Next Position</a>
+</li><li><a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/slide10.htm"> Printing Solution </a>
+</li><li><a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/slide11.htm"> Can Attack</a>
+</li><li><a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/slide12.htm"> The Last Queen</a>
+</li><li><a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/slide13.htm"> Chapter Summary</a>
+</li></ol>
+<p>
+<b>Source Code</b>
+</p><ul>
+<li>Eight Queens program in <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/queen.cpp">C++</a>
+</li><li>Eight Queens program in <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/queen.p">Object Pascal</a>
+</li><li>Eight Queens program in <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/QSolve.java">Java</a>
+(not on CD, see <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/cd.htm">explanation</a>)
+</li></ul>
+<p>
+<b>Other Material</b>
+</p><ul>
+<li>A printer friendly version of <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/all.htm">all slides</a>
+</li><li>HTML page for <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/java.htm">queen program in Java</a>
+(not available on CD, see <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/cd.htm">explanation</a>)
+</li><li>A puzzle related to the 8-queens is the knights-tour problem.
+While slightly more advanced, in Chapter 18 we will introduce
+the idea of frameworks.  In another book I have written an
+example <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap18/stl.htm">backtracking framework</a> illustrated 
+using this puzzle.
+</li></ul>
+
+<h6 align="right">Intro OOP, <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/slide1.htm">Chapter 6</a>, Slide 1</h6>
+<hr>
+
+
+<p>
+</p><h1>Statement of the Problem</h1>
+<p>
+Problem - how to place eight queens on a chessboard so that no two queens
+can attack each other:
+
+</p><p>
+<img src="Chapter%206,%20Slide%201_files/slide01.gif" alt="chessboard with 8 queens">
+</p><h6 align="right">Intro OOP, <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/outline.htm">Chapter 6</a>, Slide 1</h6>
+<hr>
+
+
+
+<br>
+<h1>OOP Approach</h1>
+<p>
+More than just solving the problem, we want to solve the problem in an OOP
+manner.
+</p><p></p><ul>
+<li>
+Structure the program so that the data values <em>themselves</em> discover the
+solution.
+<p>
+</p></li><li>
+Similar to creating a universe and setting it in motion.
+<p>
+</p></li><li>
+No single controlling manager.
+</li></ul>
+
+<h6 align="right">Intro OOP, <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/outline.htm">Chapter 6</a>, Slide 2</h6>
+<hr>
+
+
+
+<br>
+<h1>Observations</h1>
+<p>
+Here are a few observations we can make concerning this problem:
+</p><p></p><ul>
+<li>
+Queens can be assigned a column, problem is then to find row positions.
+<p>
+</p></li><li>
+One obvious behavior is for a queen to tell if it can attack a given position.
+<p>
+</p></li><li>
+Can structure the problem using <em>generators</em> - each queen can be asked to
+find one solution, then later be asked to find another solution.
+</li></ul>
+
+<h6 align="right">Intro OOP, <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/outline.htm">Chapter 6</a>, Slide 3</h6>
+<hr>
+
+
+
+<br>
+<h1>Pointers</h1>
+<p>
+We can make each queen point to the next on the left, then send messages only
+to the rightmost queen.  Each queen will in turn send messages only to the
+neighbor it points to.
+
+</p><p>
+<img src="Chapter%206,%20Slide%201_files/slide04.gif" alt="picture of queens pointing to each other">
+<br>
+</p><h6 align="right">Intro OOP, <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/outline.htm">Chapter 6</a>, Slide 4</h6>
+<hr>
+
+
+
+<br>
+<h1>CRC Card for Queen</h1>
+<img src="Chapter%206,%20Slide%201_files/slide05.gif" alt="CRC card for queen class">
+<h6 align="right">Intro OOP, <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/outline.htm">Chapter 6</a>, Slide 5</h6>
+<hr>
+
+
+
+<br>
+<h1>CRC Card for Queen - Backside</h1>
+<br>
+<img src="Chapter%206,%20Slide%201_files/slide06.gif" alt="back side of CRC card">
+<br>
+<h6 align="right">Intro OOP, <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/outline.htm">Chapter 6</a>, Slide 6</h6>
+<hr>
+
+
+
+<br>
+<h1>Initialization</h1>
+<p>
+Initialization will set each queen to point to a neighbor, and set column
+value.  C++ version is shown:
+</p><pre>
+main() {
+	Queen * lastQueen = 0;
+
+	for (int i = 1; i &lt;= 8; i++) {
+		lastQueen = new Queen(i, lastQueen);
+		if (! lastQueen-&gt;findSolution())
+			cout &lt;&lt; "no solution";
+	}
+	
+	if (lastQueen-&gt;first()) 
+		lastQueen-&gt;print();
+}
+
+Queen::Queen (int col, Queen * ngh)
+{
+	column = col;
+	neighbor = ngh;
+	row = 1;
+}
+
+</pre>
+
+<h6 align="right">Intro OOP, <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/outline.htm">Chapter 6</a>, Slide 7</h6>
+<hr>
+
+
+
+<br>
+<h1>Finding First Solution</h1>
+<p>
+Finding first solution, in pseudo-code:
+</p><pre>
+function queen.findSolution -&gt; boolean
+	
+	while neighbor.canAttack (row, column) do
+		if not self.advance then
+			return false;
+
+		// found a solution
+	return true;
+end
+
+</pre>
+We ignore for the moment the question of what to do if you don't have 
+a neighbor
+
+<h6 align="right">Intro OOP, <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/outline.htm">Chapter 6</a>, Slide 8</h6>
+<hr>
+
+
+
+<br>
+<h1>Advancing to Next Position</h1>
+<pre>
+function queen.advance -&gt; boolean
+
+	if row &lt; 8 then begin
+		row := row + 1;
+		return self.findSolution
+	end
+
+		// cannot go further, move neighbor
+	if not neighbor.advance then
+		return false
+
+	row := 1
+	return self findSolution
+
+end
+</pre>
+
+<h6 align="right">Intro OOP, <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/outline.htm">Chapter 6</a>, Slide 9</h6>
+<hr>
+
+
+
+<br>
+<h1>Printing Solution</h1>
+Just recursively ripple down the list of queens, asking each to
+print itself.
+<pre>
+procedure print
+	neighbor.print
+	write row, column
+end
+
+</pre>
+
+<h6 align="right">Intro OOP, <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/outline.htm">Chapter 6</a>, Slide 10</h6>
+<hr>
+
+
+
+<br>
+<h1>Can Attack</h1>
+<pre>
+function canAttack(r, c)
+	if r = row then
+		return true
+	cd := column - c;
+	if (row + cd = r) or (row - cd = r) then
+		return true;
+	return neighbor.canAttack(r, c)
+end
+</pre>
+For a diagonal, the difference in row must equal the difference
+in columns.
+
+<h6 align="right">Intro OOP, <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/outline.htm">Chapter 6</a>, Slide 11</h6>
+<hr>
+
+
+
+<br>
+<h1>The Last Queen</h1>
+<p>
+Two approaches to handling the leftmost queen -
+</p><p></p><ul>
+<li>
+Null pointers - each queen must then test for null pointers before sending
+a message
+<p>
+</p></li><li>
+Special ``sentinel'' value - indicates end of line for queens
+</li></ul>
+<p>
+Both versions are described in text.
+
+</p><h6 align="right">Intro OOP, <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/outline.htm">Chapter 6</a>, Slide 12</h6>
+<hr>
+The complete solutions in each language are not described in the slides,
+but are presented in detail in the text.
+<br>
+A <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/java.htm">Java applet</a> version is available.
+
+<br>
+<h1>Chapter Summary</h1>
+<p>
+Important not for the problem being solved, but how it is solved.
+</p><p></p><ul>
+<li>
+Solution is the result of community of agents working together
+<p>
+</p></li><li>
+No single controlling program - control is decentralized
+<p>
+</p></li><li>
+Active objects determine their own actions and behavior.
+</li></ul>
+
+<h6 align="right">Intro OOP, <a href="http://web.engr.oregonstate.edu/~budd/Books/oopintro3e/info/slides/chap06/outline.htm">Chapter 6</a>, Slide 13</h6>
+<hr>
+
+
+
+
+
+</body></html>

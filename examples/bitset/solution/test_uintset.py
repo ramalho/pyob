@@ -1,6 +1,7 @@
 import pytest
 
 from uintset import UintSet
+from uintset import INVALID_ELEMENT_MSG, INVALID_ITER_ARG_MSG
 
 
 def test_len():
@@ -26,14 +27,14 @@ def test_not_number():
     s = UintSet()
     with pytest.raises(TypeError) as e:
         s.add('A')
-    assert e.value.args[0] == "'UintSet' elements must be integers >= 0"  
+    assert e.value.args[0] == INVALID_ELEMENT_MSG  
 
 
 def test_add_negative():
     s = UintSet()
     with pytest.raises(ValueError) as e:
         s.add(-1)
-    assert e.value.args[0] == "'UintSet' elements must be integers >= 0"  
+    assert e.value.args[0] == INVALID_ELEMENT_MSG 
 
 
 def test_contains_zero_not():
@@ -118,7 +119,7 @@ def test_union_not_iterable():
     first = UintSet()
     with pytest.raises(TypeError) as e:
         first.union(1)
-    assert e.value.args[0] == "expected UintSet or iterable argument"  
+    assert e.value.args[0] == INVALID_ITER_ARG_MSG  
 
 
 def test_union_iterable_multiple():
