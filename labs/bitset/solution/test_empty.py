@@ -30,12 +30,14 @@ def test_or_op(first, second, want):
      got = first | second
      assert got == want
 
+
 intersection_cases = [
         (Empty, UintSet()),
         (Empty, UintSet([1])),
         (UintSet([1]), Empty),
         (UintSet([1, 100]), Empty),
     ]
+
 
 @pytest.mark.parametrize("first, second", intersection_cases)
 def test_and_op(first, second):
